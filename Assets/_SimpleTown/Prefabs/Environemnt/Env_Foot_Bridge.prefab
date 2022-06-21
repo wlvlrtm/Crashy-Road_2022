@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 705515050012203840}
+  - component: {fileID: 1271087338434249797}
+  - component: {fileID: 7118033501118987156}
   m_Layer: 0
   m_Name: Env_Foot_Bridge
   m_TagString: Untagged
@@ -95,5 +97,31 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 5.105455, z: 5.6644554}
-  m_Center: {x: -10, y: -0.4709413, z: 2.4923534}
+  m_Size: {x: 20, y: 0.34485385, z: 4.972885}
+  m_Center: {x: -10, y: -0.022368953, z: 2.498878}
+--- !u!65 &1271087338434249797
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 5.1, z: 0.75}
+  m_Center: {x: -10, y: -0.45, z: 4.74}
+--- !u!65 &7118033501118987156
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 5.1, z: 0.75}
+  m_Center: {x: -10, y: -0.45000005, z: 0.25}

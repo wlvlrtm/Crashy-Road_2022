@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
+  - component: {fileID: 5059061139532952684}
+  - component: {fileID: 3303486535994101163}
   m_Layer: 0
   m_Name: Prop_MallSign
   m_TagString: Untagged
@@ -83,6 +85,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5059061139532952684
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.700138, y: 2.678194, z: 1.0857925}
+  m_Center: {x: 0.0000009536743, y: 3.7084837, z: 0}
+--- !u!65 &3303486535994101163
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.102356, y: 10.095161, z: 1.0857925}
+  m_Center: {x: -0.041511536, y: 0, z: 0}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +122,7 @@ GameObject:
   - component: {fileID: 400002}
   - component: {fileID: 3300002}
   - component: {fileID: 2300002}
+  - component: {fileID: 3514112165343573346}
   m_Layer: 0
   m_Name: Carpark
   m_TagString: Untagged
@@ -166,6 +195,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3514112165343573346
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 34.4986, y: 0.19479674, z: 29.999962}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +220,7 @@ GameObject:
   - component: {fileID: 3300004}
   - component: {fileID: 2300004}
   - component: {fileID: -6675929814344176241}
+  - component: {fileID: 2560992962567920239}
   m_Layer: 0
   m_Name: Building_Mall
   m_TagString: Untagged
@@ -263,5 +306,18 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 37.995277, y: 8.458705, z: 43.187973}
-  m_Center: {x: -17.470333, y: 4.229344, z: -20.06668}
+  m_Size: {x: 11.192683, y: 8.458705, z: 40.92754}
+  m_Center: {x: -5.2326074, y: 4.229344, z: -20.087015}
+--- !u!65 &2560992962567920239
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100004}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 25.363544, y: 8.458705, z: 10.443354}
+  m_Center: {x: -22.668467, y: 4.229344, z: -4.8490105}

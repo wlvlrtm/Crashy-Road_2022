@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 5272311804132681808}
+  - component: {fileID: 1811422885441980944}
+  - component: {fileID: 5785210361302981886}
   m_Layer: 0
   m_Name: Env_Car_Bridge_02
   m_TagString: Untagged
@@ -95,5 +97,31 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 19.99999, y: 7.301578, z: 20.69223}
-  m_Center: {x: -9.999995, y: 0.62712026, z: 0.000030517578}
+  m_Size: {x: 19.99999, y: 0.1947958, z: 20}
+  m_Center: {x: -9.999995, y: -0.09739792, z: 0.000030517578}
+--- !u!65 &1811422885441980944
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 7, z: 0.7}
+  m_Center: {x: -10, y: 0.8, z: 9.64}
+--- !u!65 &5785210361302981886
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 7, z: 0.7}
+  m_Center: {x: -10, y: 0.8, z: -9.64}
