@@ -31,8 +31,6 @@ public class AIDriving : MonoBehaviour
     public GameObject blue;
     public bool lightchange;
     public float lighttime;
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -51,10 +49,8 @@ public class AIDriving : MonoBehaviour
         {
             throttlecontrol = 0.7f;
         }
-
         // Targeter looks at player
         targeter.LookAt(target);
-
         // Figures out which direction the car is facing
         if (targeter.localEulerAngles.y <= 180)
         {
@@ -64,34 +60,26 @@ public class AIDriving : MonoBehaviour
         {
             directional = Mathf.Clamp(targeter.localEulerAngles.y-360, -25, 25);
         }
-
         // Looks left and right for obstacles, if it finds any, it will make adjustments, adjustments are more intense the closer to the obstacle
         RaycastHit hit;
-        if (Physics.Raycast(right.position, right.forward, out hit))
+        if (Physics.Raycast(right.position, right.forward, out hit, 10))
         {
-            Debug.DrawRay(right.position, right.forward, Color.green);
-            Debug.Log(hit.collider.gameObject.name);
             directional = -25/(hit.distance/2);
         }
-        if (Physics.Raycast(left.position, left.forward, out hit))
+        if (Physics.Raycast(left.position, left.forward, out hit, 10))
         {
-            Debug.DrawRay(left.position, left.forward, Color.red);
-            Debug.Log(hit.collider.gameObject.name);
             directional = 25/(hit.distance/2);
         }
-
         // Puts the car into reverse if looking directly at a wall, throttle is increase to 5 times the normal value to help the process
         if (Physics.Raycast(transform.position, transform.forward, out hit, 4))
         {
             directional = -directional;
             throttlecontrol = -5;
         }
-
         // Applies the throttle force
         drivingforce = throttlecontrol * throttle;
         wheelBR.motorTorque = drivingforce;
         wheelBL.motorTorque = drivingforce;
-        
         // Sets the direciton of the wheels
         wheelangle = directional;
 
@@ -103,24 +91,25 @@ public class AIDriving : MonoBehaviour
         wheelFRg.transform.position = wheelpos;
         wheelFRg.transform.rotation = wheelrot;
 
+
         wheelFL.GetWorldPose(out wheelpos, out wheelrot);
         wheelFLg.transform.position = wheelpos;
         wheelFLg.transform.rotation = wheelrot;
+
 
         wheelBR.GetWorldPose(out wheelpos, out wheelrot);
         wheelBRg.transform.position = wheelpos;
         wheelBRg.transform.rotation = wheelrot;
 
+
         wheelBL.GetWorldPose(out wheelpos, out wheelrot);
         wheelBLg.transform.position = wheelpos;
         wheelBLg.transform.rotation = wheelrot;
     }
-
     void FixedUpdate()
     {
         // Adds a downforce to prevent the car from lifting up too easily, more force is applied the faster the car is going
         rb.AddForce(-transform.up * rb.velocity.magnitude * 700);
-    
         // Simple script to flash the lights, probably a better way to do this
         lighttime += 1;
         if (lighttime > 10)
@@ -141,3 +130,4 @@ public class AIDriving : MonoBehaviour
         }
     }
 }
+
