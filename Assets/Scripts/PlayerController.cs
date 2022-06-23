@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-// SerializeField: You can change that variables value in the Inspector, but you cannot do it in other scripts.
+    [SerializeField] private GameController gameController;
+    [SerializeField] private int life;
     [SerializeField] private float horsePower = 20f;
     [SerializeField] private float rotateSpeed = 45f;
     [SerializeField] private float speed;
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private GameObject centerOfMass;
     [SerializeField] private int wheelsOnGround;    
     [SerializeField] private List<WheelCollider> wheels;
-
+    
     private float horizontalInput;
     private float verticalInput;
     private Rigidbody playerRb;
@@ -19,9 +20,9 @@ public class PlayerController : MonoBehaviour {
      
 
     private void Init() {
-        playerRb = GetComponent<Rigidbody>();
-        playerRb.centerOfMass = centerOfMass.transform.localPosition;
-        startPos = gameObject.transform.position;
+        this.playerRb = GetComponent<Rigidbody>();
+        this.playerRb.centerOfMass = this.centerOfMass.transform.localPosition;
+        this.startPos = gameObject.transform.position;
     }
 
     private void Awake() {
@@ -32,30 +33,61 @@ public class PlayerController : MonoBehaviour {
         Driving();
     }
 
+    private void OnCollisionEnter(Collision other) {
+        switch(other.gameObject.tag) {
+            case "Enemy" :
+            case "Building" :
+                Hit();
+                break;
+        }
+    }
+
+    private void Hit() {
+        this.life -= 1;
+
+        if (this.life <= 0) {
+            Crash();
+        }
+    }
+
+    private void Crash() {
+        this.horsePower = 0;    // Engine OFF
+
+        for (int i = 0; i < 4; i++) {   // Wheel Disable
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    public void Death() {
+        gameController.GameOver();  // GameOver!!
+    }
+
     private void Driving() {
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
+        this.horizontalInput = Input.GetAxis("Horizontal");
+        this.verticalInput = Input.GetAxis("Vertical");
 
         if (IsOnGround()) {
             // Accel
-            playerRb.AddRelativeForce(Vector3.forward * -verticalInput * horsePower);
+            playerRb.AddRelativeForce(Vector3.forward * -this.verticalInput * this.horsePower);
         }
 
         // Steering wheel (4 wheel)
-        wheels[0].steerAngle = horizontalInput * rotateSpeed;
-        wheels[1].steerAngle = horizontalInput * rotateSpeed;
-        wheels[2].steerAngle = -horizontalInput * (rotateSpeed / 3);
-        wheels[3].steerAngle = -horizontalInput * (rotateSpeed / 3);
+        this.wheels[0].steerAngle = this.horizontalInput * this.rotateSpeed;
+        this.wheels[1].steerAngle = this.horizontalInput * this.rotateSpeed;
+        this.wheels[2].steerAngle = -this.horizontalInput * (this.rotateSpeed / 3);
+        this.wheels[3].steerAngle = -this.horizontalInput * (this.rotateSpeed / 3);
     }
 
     private bool IsOnGround() {
-        wheelsOnGround = 0;
-        foreach (WheelCollider wheel in wheels) {
+        this.wheelsOnGround = 0;
+
+        foreach (WheelCollider wheel in this.wheels) {
             if (wheel.isGrounded) {
-                wheelsOnGround++;
+                this.wheelsOnGround++;
             }
         }
-        if (wheelsOnGround == 4) {
+
+        if (this.wheelsOnGround == 4) {
             return true;
         }
         else {

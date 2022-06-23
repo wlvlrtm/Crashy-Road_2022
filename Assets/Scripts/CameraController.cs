@@ -9,6 +9,6 @@ public class CameraController : MonoBehaviour {
 
     private void FixedUpdate() {
         
-        transform.position = (target.position + offset);
+        transform.position = (this.target.position + this.offset);
     }
 }

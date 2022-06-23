@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
     [SerializeField] private int life;
-    public int Life { 
-        get { return life; }
-        set { this.life = value; } 
-    }
     [SerializeField] private int restTime;
     [SerializeField] private GameObject enemySpawner;
-
     private Coroutine runningCoroutine;
 
 
     private void Init() {
-        runningCoroutine = null;
+        this.runningCoroutine = null;
     }
 
     private void OnCollisionEnter(Collision other) {
@@ -28,28 +23,34 @@ public class EnemyController : MonoBehaviour {
     }
 
     private void Hit() {
-        this.Life -= 1;
-        if (this.Life <= 0) {
-            Death();
+        this.life -= 1;
+
+        if (this.life <= 0) {
+            Crash();
         }
     }
 
-    private void Death() {
+    private void Crash() {
         GetComponent<AIDriving>().throttle = 0;
-        if (runningCoroutine == null) {
-            runningCoroutine = StartCoroutine(CarReset());
+
+        if (this.runningCoroutine == null) {
+            this.runningCoroutine = StartCoroutine(ResetTimer());
         }
     }
 
-    IEnumerator CarReset() {
+    public void Reset() {
+        // Car Pos. Reset
+        gameObject.transform.position = this.enemySpawner.transform.position;
+    }
+
+    IEnumerator ResetTimer() {
         // Car Reset Timer
-        while (restTime > 0) {
-            restTime -= 1;
+        while (this.restTime > 0) {
+            this.restTime -= 1;
             yield return new WaitForSeconds(1);
         }
 
-        // Car Pos. Reset; Car Disable
-        gameObject.SetActive(false);
-        gameObject.transform.position = enemySpawner.transform.position;
+        gameObject.SetActive(false);    // Car Disable
+        Reset();
     }
 }
