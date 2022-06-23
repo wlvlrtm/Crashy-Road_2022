@@ -15,11 +15,13 @@ public class PlayerController : MonoBehaviour {
     private float horizontalInput;
     private float verticalInput;
     private Rigidbody playerRb;
+    private Vector3 startPos;
      
 
     private void Init() {
         playerRb = GetComponent<Rigidbody>();
         playerRb.centerOfMass = centerOfMass.transform.localPosition;
+        startPos = gameObject.transform.position;
     }
 
     private void Awake() {
@@ -42,8 +44,8 @@ public class PlayerController : MonoBehaviour {
         // Steering wheel (4 wheel)
         wheels[0].steerAngle = horizontalInput * rotateSpeed;
         wheels[1].steerAngle = horizontalInput * rotateSpeed;
-        wheels[2].steerAngle = -horizontalInput * (rotateSpeed/3);
-        wheels[3].steerAngle = -horizontalInput * (rotateSpeed/3);
+        wheels[2].steerAngle = -horizontalInput * (rotateSpeed / 3);
+        wheels[3].steerAngle = -horizontalInput * (rotateSpeed / 3);
     }
 
     private bool IsOnGround() {

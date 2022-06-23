@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIDriving : MonoBehaviour
-{
+public class AIDriving : MonoBehaviour {
     // Defining variables
     public WheelCollider wheelFR;
     public WheelCollider wheelFL;
@@ -33,55 +32,55 @@ public class AIDriving : MonoBehaviour
     public float lighttime;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private void Init() {
         rb.centerOfMass = center;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    private void Awake() {
+        Init();
+    }
+
+    private void Update() {
         // This makes the car slow down if making a directional change more than 10 degrees
-        if(Mathf.Abs(directional) < 10)
-        {
+        if (Mathf.Abs(directional) < 10) {
             throttlecontrol = 1;
         }
-        else
-        {
+        else {
             throttlecontrol = 0.7f;
         }
+
         // Targeter looks at player
         targeter.LookAt(target);
+        
         // Figures out which direction the car is facing
-        if (targeter.localEulerAngles.y <= 180)
-        {
+        if (targeter.localEulerAngles.y <= 180) {
             directional = Mathf.Clamp(targeter.localEulerAngles.y, -25, 25);
         }
-        else
-        {
+        else {
             directional = Mathf.Clamp(targeter.localEulerAngles.y-360, -25, 25);
         }
+
         // Looks left and right for obstacles, if it finds any, it will make adjustments, adjustments are more intense the closer to the obstacle
         RaycastHit hit;
-        if (Physics.Raycast(right.position, right.forward, out hit, 10))
-        {
+        if (Physics.Raycast(right.position, right.forward, out hit, 10)) {
             directional = -25/(hit.distance/2);
         }
-        if (Physics.Raycast(left.position, left.forward, out hit, 10))
-        {
+
+        if (Physics.Raycast(left.position, left.forward, out hit, 10)) {
             directional = 25/(hit.distance/2);
         }
+
         // Puts the car into reverse if looking directly at a wall, throttle is increase to 5 times the normal value to help the process
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 4))
-        {
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 4)) {
             directional = -directional;
             throttlecontrol = -5;
         }
+
         // Applies the throttle force
         drivingforce = throttlecontrol * throttle;
         wheelBR.motorTorque = drivingforce;
         wheelBL.motorTorque = drivingforce;
+
         // Sets the direciton of the wheels
         wheelangle = directional;
 
@@ -93,39 +92,34 @@ public class AIDriving : MonoBehaviour
         wheelFRg.transform.position = wheelpos;
         wheelFRg.transform.rotation = wheelrot;
 
-
         wheelFL.GetWorldPose(out wheelpos, out wheelrot);
         wheelFLg.transform.position = wheelpos;
         wheelFLg.transform.rotation = wheelrot;
 
-
         wheelBR.GetWorldPose(out wheelpos, out wheelrot);
         wheelBRg.transform.position = wheelpos;
         wheelBRg.transform.rotation = wheelrot;
-
 
         wheelBL.GetWorldPose(out wheelpos, out wheelrot);
         wheelBLg.transform.position = wheelpos;
         wheelBLg.transform.rotation = wheelrot;
     }
     
-    void FixedUpdate()
-    {
+    private void FixedUpdate() {
         // Adds a downforce to prevent the car from lifting up too easily, more force is applied the faster the car is going
         rb.AddForce(-transform.up * rb.velocity.magnitude * 700);
+
         // Simple script to flash the lights, probably a better way to do this
         lighttime += 1;
-        if (lighttime > 10)
-        {
+        if (lighttime > 10) {
             lighttime = 0;
-            if (lightchange == false)
-            {
+
+            if (lightchange == false) {
                 lightchange = true;
                 blue.SetActive(true);
                 red.SetActive(false);
             }
-            else
-            {
+            else {
                 lightchange = false;
                 blue.SetActive(false);
                 red.SetActive(true);
@@ -133,4 +127,3 @@ public class AIDriving : MonoBehaviour
         }
     }
 }
-
