@@ -31,6 +31,8 @@ public class AIDriving : MonoBehaviour
     public GameObject blue;
     public bool lightchange;
     public float lighttime;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -106,6 +108,7 @@ public class AIDriving : MonoBehaviour
         wheelBLg.transform.position = wheelpos;
         wheelBLg.transform.rotation = wheelrot;
     }
+    
     void FixedUpdate()
     {
         // Adds a downforce to prevent the car from lifting up too easily, more force is applied the faster the car is going
