@@ -13,6 +13,10 @@ public class EnemyController : MonoBehaviour {
         this.runningCoroutine = null;
     }
 
+    private void OnDisable() {
+        PosReset();
+    }
+
     private void OnCollisionEnter(Collision other) {
         switch (other.gameObject.tag) {
             case "Player" :
@@ -34,16 +38,16 @@ public class EnemyController : MonoBehaviour {
         GetComponent<AIDriving>().throttle = 0;
 
         if (this.runningCoroutine == null) {
-            this.runningCoroutine = StartCoroutine(ResetTimer());
+            this.runningCoroutine = StartCoroutine(Disable());
         }
     }
 
-    public void Reset() {
+    public void PosReset() {
         // Car Pos. Reset
         gameObject.transform.position = this.enemySpawner.transform.position;
     }
 
-    IEnumerator ResetTimer() {
+    IEnumerator Disable() {
         // Car Reset Timer
         while (this.restTime > 0) {
             this.restTime -= 1;
@@ -51,6 +55,5 @@ public class EnemyController : MonoBehaviour {
         }
 
         gameObject.SetActive(false);    // Car Disable
-        Reset();
     }
 }
