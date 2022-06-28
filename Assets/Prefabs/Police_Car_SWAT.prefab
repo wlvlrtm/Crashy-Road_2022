@@ -731,7 +731,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912350811962472922}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -79.00012, y: 1.5336218, z: 23.81659}
+  m_LocalPosition: {x: 20, y: 0, z: -62}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -788,7 +788,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 4
   restTime: 10
-  enemySpawner: {fileID: 0}
 --- !u!114 &912350811961976316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,7 +815,7 @@ MonoBehaviour:
   center: {x: 0, y: -0.42, z: 0}
   wheelpos: {x: 0, y: 0, z: 0}
   wheelrot: {x: 0, y: 0, z: 0, w: 0}
-  target: {fileID: 0}
+  target: {fileID: 3275055123472572624, guid: 74a3cb73979a049bb8eafbbd2ddb14a5, type: 3}
   targeter: {fileID: 912350811710314270}
   throttlecontrol: 0
   directional: 0

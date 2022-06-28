@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
     [SerializeField] private int life;
     [SerializeField] private int restTime;
-    [SerializeField] private GameObject enemySpawner;
     private Coroutine runningCoroutine;
 
 
@@ -44,7 +43,7 @@ public class EnemyController : MonoBehaviour {
 
     public void PosReset() {
         // Car Pos. Reset
-        gameObject.transform.position = this.enemySpawner.transform.position;
+        transform.Translate(0, 0, 0);
     }
 
     IEnumerator Disable() {

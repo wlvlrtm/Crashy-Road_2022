@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3611464433047397806}
   - component: {fileID: 3620491852074368880}
   - component: {fileID: 4871045101184183106}
+  - component: {fileID: -3046134156285995348}
   m_Layer: 0
   m_Name: Item_Repair
   m_TagString: Item
@@ -97,3 +98,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.37564567, y: 0.39370453, z: 0.07999999}
   m_Center: {x: -0.0023270845, y: 0.00006713718, z: 0}
+--- !u!114 &-3046134156285995348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3633630524533863550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5835f84b4dce743a09c75ed278ae61a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 10

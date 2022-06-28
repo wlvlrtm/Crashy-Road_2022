@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7475092342968079016}
   - component: {fileID: 7466817929838132026}
   - component: {fileID: 5517740491127599156}
+  - component: {fileID: -2392275539292047014}
   m_Layer: 0
   m_Name: Item_Speed
   m_TagString: Item
@@ -97,3 +98,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.34807113, y: 0.39999998, z: 0.08}
   m_Center: {x: -0.0028804988, y: 0, z: 0}
+--- !u!114 &-2392275539292047014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7480019125656589586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5835f84b4dce743a09c75ed278ae61a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 10
