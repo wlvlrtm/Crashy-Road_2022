@@ -34,7 +34,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     private void Crash() {
-        GetComponent<AIDriving>().throttle = 0;
+        GetComponent<AIChasing>().Speed = 0;
 
         if (this.runningCoroutine == null) {
             this.runningCoroutine = StartCoroutine(Disable());
