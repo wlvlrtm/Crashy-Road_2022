@@ -6,10 +6,16 @@ public class EnemyController : MonoBehaviour {
     [SerializeField] private int life;
     [SerializeField] private int restTime;
     private Coroutine runningCoroutine;
+    private AIDriving aIDriving;
 
 
     private void Init() {
         this.runningCoroutine = null;
+        this.aIDriving = GetComponent<AIDriving>();
+    }
+
+    private void Awake() {
+        Init();        
     }
 
     private void OnDisable() {
@@ -20,6 +26,7 @@ public class EnemyController : MonoBehaviour {
         switch (other.gameObject.tag) {
             case "Player" :
             case "Building" :
+            case "Enemy" :
                 Hit();
                 break;
         }
@@ -34,11 +41,9 @@ public class EnemyController : MonoBehaviour {
     }
 
     private void Crash() {
-        GetComponent<AIChasing>().Speed = 0;
+        this.aIDriving.throttle = 0;
+        StartCoroutine(Disable());
 
-        if (this.runningCoroutine == null) {
-            this.runningCoroutine = StartCoroutine(Disable());
-        }
     }
 
     public void PosReset() {

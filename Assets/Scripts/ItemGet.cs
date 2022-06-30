@@ -70,6 +70,48 @@ public class ItemGet : MonoBehaviour {
             case "SpawnPoint (3)" :
                 itemSpawner.PointCheckers[2] = false;
                 break;
+            case "SpawnPoint (4)" :
+                itemSpawner.PointCheckers[3] = false;
+                break;
+            case "SpawnPoint (5)" :
+                itemSpawner.PointCheckers[4] = false;
+                break;
+            case "SpawnPoint (6)" :
+                itemSpawner.PointCheckers[5] = false;
+                break;    
+            case "SpawnPoint (7)" :
+                itemSpawner.PointCheckers[6] = false;
+                break;
+            case "SpawnPoint (8)" :
+                itemSpawner.PointCheckers[7] = false;
+                break;
+            case "SpawnPoint (9)" :
+                itemSpawner.PointCheckers[8] = false;
+                break;
+            case "SpawnPoint (10)" :
+                itemSpawner.PointCheckers[9] = false;
+                break;
+            case "SpawnPoint (11)" :
+                itemSpawner.PointCheckers[10] = false;
+                break;
+            case "SpawnPoint (12)" :
+                itemSpawner.PointCheckers[11] = false;
+                break;
+            case "SpawnPoint (13)" :
+                itemSpawner.PointCheckers[12] = false;
+                break;
+            case "SpawnPoint (14)" :
+                itemSpawner.PointCheckers[13] = false;
+                break;
+            case "SpawnPoint (15)" :
+                itemSpawner.PointCheckers[14] = false;
+                break;
+            case "SpawnPoint (16)" :
+                itemSpawner.PointCheckers[15] = false;
+                break;
+            case "SpawnPoint (17)" :
+                itemSpawner.PointCheckers[16] = false;
+                break;
         }
 
     }

@@ -156,11 +156,11 @@ public class PlayerController : MonoBehaviour {
 
     private void Driving() {
         this.horizontalInput = Input.GetAxis("Horizontal");
-        this.verticalInput = Input.GetAxis("Vertical");
+        //this.verticalInput = Input.GetAxis("Vertical");
 
         if (IsOnGround()) {
             // Accel
-            this.playerRb.AddRelativeForce(Vector3.forward * -this.verticalInput * this.horsePower);
+            this.playerRb.AddRelativeForce(Vector3.forward * -1 * this.horsePower);            
         }
 
         // Steering wheel (4 wheel)

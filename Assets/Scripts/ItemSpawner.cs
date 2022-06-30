@@ -5,8 +5,9 @@ using UnityEngine;
 public class ItemSpawner : MonoBehaviour {
     [SerializeField] private List<GameObject> items;
     [SerializeField] private List<GameObject> spawnPoints;
+    [SerializeField] private int itemCoolTime;
     
-    private bool[] pointCheckers;
+    public bool[] pointCheckers;
         public bool[] PointCheckers {
             get { return this.pointCheckers; }
             set { this.pointCheckers = value; }
@@ -29,19 +30,19 @@ public class ItemSpawner : MonoBehaviour {
         StartCoroutine(ItemSet());
     }
 
-    IEnumerator ItemSet() {
-        int coolTime = 5;
-        
+    IEnumerator ItemSet() {        
         while(true) {
-            int i = Random.Range(0, 4);
-            int j = Random.Range(0, 3);
+            int i = Random.Range(0, this.items.Count);
+            int j = Random.Range(0, this.spawnPoints.Count);
 
+            Debug.Log(j);
+            Debug.Log(this.pointCheckers[j]);
             if (!this.pointCheckers[j]) {
                 Instantiate(this.items[i], this.spawnPoints[j].transform.position, Quaternion.Euler(-45, 0, 0));
                 this.pointCheckers[j] = true;
             }
 
-            yield return new WaitForSeconds(coolTime);
+            yield return new WaitForSeconds(this.itemCoolTime);
         }
     }
 }

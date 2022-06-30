@@ -63,11 +63,11 @@ public class AIDriving : MonoBehaviour {
         // Looks left and right for obstacles, if it finds any, it will make adjustments, adjustments are more intense the closer to the obstacle
         RaycastHit hit;
         if (Physics.Raycast(right.position, right.forward, out hit, 10)) {
-            directional = -25/(hit.distance/2);
+            directional = -75/(hit.distance/2);
         }
 
         if (Physics.Raycast(left.position, left.forward, out hit, 10)) {
-            directional = 25/(hit.distance/2);
+            directional = 75/(hit.distance/2);
         }
 
         // Puts the car into reverse if looking directly at a wall, throttle is increase to 5 times the normal value to help the process
