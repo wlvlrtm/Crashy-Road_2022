@@ -7,7 +7,7 @@ public class ItemGet : MonoBehaviour {
     [SerializeField] private bool itemCoin;
     [SerializeField] private bool itemSpeed;
     [SerializeField] private bool itemStar;
-    [SerializeField] private ItemSpawner itemSpawner;
+
 
     private PlayerController playerController;
     private bool itemOn;
@@ -62,55 +62,55 @@ public class ItemGet : MonoBehaviour {
                 break;
                 
             case "SpawnPoint (1)" :
-                itemSpawner.PointCheckers[0] = false;
+                ItemSpawner.instance.PointCheckers[0] = false;
                 break;
             case "SpawnPoint (2)" :
-                itemSpawner.PointCheckers[1] = false;
+                ItemSpawner.instance.PointCheckers[1] = false;
                 break;
             case "SpawnPoint (3)" :
-                itemSpawner.PointCheckers[2] = false;
+                ItemSpawner.instance.PointCheckers[2] = false;
                 break;
             case "SpawnPoint (4)" :
-                itemSpawner.PointCheckers[3] = false;
+                ItemSpawner.instance.PointCheckers[3] = false;
                 break;
             case "SpawnPoint (5)" :
-                itemSpawner.PointCheckers[4] = false;
+                ItemSpawner.instance.PointCheckers[4] = false;
                 break;
             case "SpawnPoint (6)" :
-                itemSpawner.PointCheckers[5] = false;
+                ItemSpawner.instance.PointCheckers[5] = false;
                 break;    
             case "SpawnPoint (7)" :
-                itemSpawner.PointCheckers[6] = false;
+                ItemSpawner.instance.PointCheckers[6] = false;
                 break;
             case "SpawnPoint (8)" :
-                itemSpawner.PointCheckers[7] = false;
+                ItemSpawner.instance.PointCheckers[7] = false;
                 break;
             case "SpawnPoint (9)" :
-                itemSpawner.PointCheckers[8] = false;
+                ItemSpawner.instance.PointCheckers[8] = false;
                 break;
             case "SpawnPoint (10)" :
-                itemSpawner.PointCheckers[9] = false;
+                ItemSpawner.instance.PointCheckers[9] = false;
                 break;
             case "SpawnPoint (11)" :
-                itemSpawner.PointCheckers[10] = false;
+                ItemSpawner.instance.PointCheckers[10] = false;
                 break;
             case "SpawnPoint (12)" :
-                itemSpawner.PointCheckers[11] = false;
+                ItemSpawner.instance.PointCheckers[11] = false;
                 break;
             case "SpawnPoint (13)" :
-                itemSpawner.PointCheckers[12] = false;
+                ItemSpawner.instance.PointCheckers[12] = false;
                 break;
             case "SpawnPoint (14)" :
-                itemSpawner.PointCheckers[13] = false;
+                ItemSpawner.instance.PointCheckers[13] = false;
                 break;
             case "SpawnPoint (15)" :
-                itemSpawner.PointCheckers[14] = false;
+                ItemSpawner.instance.PointCheckers[14] = false;
                 break;
             case "SpawnPoint (16)" :
-                itemSpawner.PointCheckers[15] = false;
+                ItemSpawner.instance.PointCheckers[15] = false;
                 break;
             case "SpawnPoint (17)" :
-                itemSpawner.PointCheckers[16] = false;
+                ItemSpawner.instance.PointCheckers[16] = false;
                 break;
         }
 
@@ -118,26 +118,35 @@ public class ItemGet : MonoBehaviour {
 
     private void RepairItem() {
         // playerController.life +5;
-        playerController.Life += 5;
+        playerController.Life += 3;
+        playerController.CoolDownTimer += 3;
+
+        ItemSpawner.instance.ItemSpawn();
     }
 
     private void StarItem() {
         // playerController.arrestGauge = 10; -> 10s
         if (!this.itemOn) {
             StartCoroutine(__StarItem());
+            playerController.CoolDownTimer += 3;
         }
+
+        ItemSpawner.instance.ItemSpawn();
     }
 
     IEnumerator __StarItem() {
         int i = 0;
+        int scoreStep = 5;
         this.itemOn = true;
-        playerController.ArrestGauge = 100;
-        playerController.ArrestGaugeStep = 0;
+
+        //playerController.ArrestGauge = 100;
+        //playerController.ArrestGaugeStep = 0;
         while (i < 10) {    
+            playerController.Score += scoreStep;
             yield return new WaitForSeconds(1);
             i++;
         }
-        playerController.ArrestGaugeStep = 0;
+        //playerController.ArrestGaugeStep = 0;
         this.itemOn = false;
     }
 
@@ -146,7 +155,10 @@ public class ItemGet : MonoBehaviour {
         // playerController.rotateSpeed *2;
         if (!this.itemOn) {
             StartCoroutine(__SpeedItem());
+            playerController.CoolDownTimer += 3;
         }
+
+        ItemSpawner.instance.ItemSpawn();
     }
 
     IEnumerator __SpeedItem() {
@@ -171,6 +183,8 @@ public class ItemGet : MonoBehaviour {
     private void CoinItem() {
         // playerController.score +10;
         playerController.Score += 10;
-    }
+        playerController.CoolDownTimer += 3;
 
+        ItemSpawner.instance.ItemSpawn();
+    }
 }

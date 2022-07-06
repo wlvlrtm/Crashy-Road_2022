@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    [SerializeField] private GameController gameController;
     [SerializeField] private int life;
         public int Life {
             get { return this.life; }
             set { this.life = value; }
         }
+    [SerializeField] private int coolDownTimer;
+        public int CoolDownTimer {
+            get { return this.coolDownTimer; }
+            set { this.coolDownTimer += value; }
+        }
+
+    /*
     [SerializeField] private int arrestGauge;
         public int ArrestGauge {
             get { return this.arrestGauge; }
             set { this.arrestGauge = value; }
         }
+    */
     [SerializeField] private int score;
         public int Score {
             get { return this.score; }
@@ -32,17 +39,23 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private GameObject centerOfMass;
     [SerializeField] private int wheelsOnGround;    
     [SerializeField] private List<WheelCollider> wheels;
+    [SerializeField] private TrailRenderer skidRL;
+    [SerializeField] private TrailRenderer skidRR;
 
-    private bool isDeath;
+    
+    /*
     private int arrestGaugeStep;
         public int ArrestGaugeStep {
             get { return this.arrestGaugeStep; }
             set { this.arrestGaugeStep = value; }
         }
+    */
+    private bool isDeath;
     private float horizontalInput;
     private float verticalInput;
     private Rigidbody playerRb;
     private Vector3 startPos;
+    private Vector3 moveForce;
     private Coroutine runningCoroutine;
 
      
@@ -52,10 +65,13 @@ public class PlayerController : MonoBehaviour {
         this.playerRb.centerOfMass = this.centerOfMass.transform.localPosition;
         this.startPos = gameObject.transform.position;
         this.isDeath = false;
-        this.arrestGaugeStep = 10;
+        //this.arrestGaugeStep = 10;
 
         // Score Count Start
         StartCoroutine(ScoreCounter());
+
+        // CoolDown
+        StartCoroutine(CoolDownCounter());
 
         // Engine ON
         foreach (WheelCollider wheel in wheels) {
@@ -70,21 +86,24 @@ public class PlayerController : MonoBehaviour {
     private void FixedUpdate() {
         Driving();
         Crash();
+        PlayerDeath();
     }
 
     private void OnDisable() {
-        this.gameController.GameOver();    
+        this.isDeath = true;
+        //GameController.instance.GameOver();    
     }
 
     private void OnCollisionEnter(Collision other) {
         switch(other.gameObject.tag) {
-            case "Enemy" :
+            //case "Enemy" :
             case "Building" :
                 Hit();
                 break;
         }
     }
 
+    /*
     private void OnTriggerEnter(Collider other) {
         switch (other.gameObject.tag) {
             case "Enemy" :
@@ -100,6 +119,25 @@ public class PlayerController : MonoBehaviour {
                 break;
         }
     }
+    */
+
+    private void PlayerDeath() {
+        if (this.isDeath == true) {
+            GameController.instance.GameOver();
+        }
+    }
+
+    IEnumerator CoolDownCounter() {
+        while (this.coolDownTimer > 0 && !this.isDeath) {
+            this.coolDownTimer -= 1;
+            yield return new WaitForSeconds(1);
+        }
+
+        if (this.coolDownTimer <= 0) {
+            this.isDeath = true;
+            //GameController.instance.GameOver();
+        }
+    }
 
     IEnumerator ScoreCounter() {
         while (!this.isDeath) {
@@ -108,6 +146,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    /*
     private void Arrest(bool type) {
         if (this.runningCoroutine != null) {
             StopCoroutine(this.runningCoroutine);
@@ -135,6 +174,7 @@ public class PlayerController : MonoBehaviour {
             this.gameController.GameOver();
         }
     }
+    */
 
     private void Hit() {
         this.life -= 1;
@@ -142,31 +182,45 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Crash() {
-        if (this.life <= 0) {
+        if (this.life <= 0 || this.isDeath) {
             this.horsePower = 0;    // Engine OFF
 
             for (int i = 0; i < 4; i++) {   // Wheel Disable
                 transform.GetChild(i).gameObject.SetActive(false);
             }
             
-            this.isDeath = true;
-            this.gameController.GameOver();
+            this.isDeath = true;    // Death
+            //GameController.instance.GameOver();
         }
     }
 
     private void Driving() {
         this.horizontalInput = Input.GetAxis("Horizontal");
         //this.verticalInput = Input.GetAxis("Vertical");
-
+        
+        // Accel
         if (IsOnGround()) {
-            // Accel
-            this.playerRb.AddRelativeForce(Vector3.forward * -1 * this.horsePower);            
+            this.playerRb.AddRelativeForce(Vector3.forward * -1 * this.horsePower);          
         }
+        
+        //transform.position += this.moveForce;
 
-        // Steering wheel (4 wheel)
+        // Steering wheel (4 wheels)
         if (this.playerRb.velocity.magnitude > 0.5f) {
             transform.Rotate(Vector3.up * this.horizontalInput * this.rotateSpeed * Time.deltaTime);
+            
         }
+
+        // Skid VFX
+        if (this.horizontalInput != 0) {
+            this.skidRL.emitting = true;
+            this.skidRR.emitting = true;
+        }
+        else {
+            this.skidRL.emitting = false;
+            this.skidRR.emitting = false;
+        }
+        
         
         // this.wheels[0].steerAngle = this.horizontalInput * this.rotateSpeed;
         // this.wheels[1].steerAngle = this.horizontalInput * this.rotateSpeed;
