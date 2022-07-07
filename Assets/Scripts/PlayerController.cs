@@ -13,14 +13,6 @@ public class PlayerController : MonoBehaviour {
             get { return this.coolDownTimer; }
             set { this.coolDownTimer += value; }
         }
-
-    /*
-    [SerializeField] private int arrestGauge;
-        public int ArrestGauge {
-            get { return this.arrestGauge; }
-            set { this.arrestGauge = value; }
-        }
-    */
     [SerializeField] private int score;
         public int Score {
             get { return this.score; }
@@ -42,14 +34,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private TrailRenderer skidRL;
     [SerializeField] private TrailRenderer skidRR;
 
-    
-    /*
-    private int arrestGaugeStep;
-        public int ArrestGaugeStep {
-            get { return this.arrestGaugeStep; }
-            set { this.arrestGaugeStep = value; }
-        }
-    */
     private bool isDeath;
     private float horizontalInput;
     private float verticalInput;
@@ -65,7 +49,6 @@ public class PlayerController : MonoBehaviour {
         this.playerRb.centerOfMass = this.centerOfMass.transform.localPosition;
         this.startPos = gameObject.transform.position;
         this.isDeath = false;
-        //this.arrestGaugeStep = 10;
 
         // Score Count Start
         StartCoroutine(ScoreCounter());
@@ -91,35 +74,15 @@ public class PlayerController : MonoBehaviour {
 
     private void OnDisable() {
         this.isDeath = true;
-        //GameController.instance.GameOver();    
     }
 
     private void OnCollisionEnter(Collision other) {
         switch(other.gameObject.tag) {
-            //case "Enemy" :
             case "Building" :
                 Hit();
                 break;
         }
     }
-
-    /*
-    private void OnTriggerEnter(Collider other) {
-        switch (other.gameObject.tag) {
-            case "Enemy" :
-                Arrest(true); 
-                break;
-        }
-    }
-
-    private void OnTriggerExit(Collider other) {
-        switch (other.gameObject.tag) {
-            case "Enemy" :
-                Arrest(false);
-                break;
-        }
-    }
-    */
 
     private void PlayerDeath() {
         if (this.isDeath == true) {
@@ -135,7 +98,6 @@ public class PlayerController : MonoBehaviour {
 
         if (this.coolDownTimer <= 0) {
             this.isDeath = true;
-            //GameController.instance.GameOver();
         }
     }
 
@@ -145,36 +107,6 @@ public class PlayerController : MonoBehaviour {
             yield return new WaitForSeconds(1);
         }
     }
-
-    /*
-    private void Arrest(bool type) {
-        if (this.runningCoroutine != null) {
-            StopCoroutine(this.runningCoroutine);
-        }
-        
-        this.runningCoroutine = StartCoroutine(__Arrest(type));
-    }
-
-    IEnumerator __Arrest(bool isArresting) {
-        if (isArresting) {  // Gauge Decrease
-            while (this.arrestGauge > 0) {
-                this.arrestGauge -= this.arrestGaugeStep;
-                yield return new WaitForSeconds(1);
-            }
-        }
-        else if (!isArresting) {    // Gauge Increase
-            while (this.arrestGauge < 100) {
-                this.arrestGauge += this.arrestGaugeStep;
-                yield return new WaitForSeconds(1);
-            }
-        }
-        
-        if (this.arrestGauge <= 0) {    // GameOver
-            this.isDeath = true;
-            this.gameController.GameOver();
-        }
-    }
-    */
 
     private void Hit() {
         this.life -= 1;
@@ -190,20 +122,16 @@ public class PlayerController : MonoBehaviour {
             }
             
             this.isDeath = true;    // Death
-            //GameController.instance.GameOver();
         }
     }
 
     private void Driving() {
         this.horizontalInput = Input.GetAxis("Horizontal");
-        //this.verticalInput = Input.GetAxis("Vertical");
         
         // Accel
         if (IsOnGround()) {
             this.playerRb.AddRelativeForce(Vector3.forward * -1 * this.horsePower);          
         }
-        
-        //transform.position += this.moveForce;
 
         // Steering wheel (4 wheels)
         if (this.playerRb.velocity.magnitude > 0.5f) {
@@ -220,12 +148,6 @@ public class PlayerController : MonoBehaviour {
             this.skidRL.emitting = false;
             this.skidRR.emitting = false;
         }
-        
-        
-        // this.wheels[0].steerAngle = this.horizontalInput * this.rotateSpeed;
-        // this.wheels[1].steerAngle = this.horizontalInput * this.rotateSpeed;
-        // this.wheels[2].steerAngle = -this.horizontalInput * (this.rotateSpeed / 3);
-        // this.wheels[3].steerAngle = -this.horizontalInput * (this.rotateSpeed / 3);
     }
 
     private bool IsOnGround() {

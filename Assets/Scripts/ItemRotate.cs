@@ -8,5 +8,4 @@ public class ItemRotate : MonoBehaviour {
     private void Update() {
         transform.Rotate(Vector3.up * rotateSpeed);
     }
-
 }

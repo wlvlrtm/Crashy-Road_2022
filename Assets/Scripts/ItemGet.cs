@@ -137,16 +137,15 @@ public class ItemGet : MonoBehaviour {
     IEnumerator __StarItem() {
         int i = 0;
         int scoreStep = 5;
+        
         this.itemOn = true;
 
-        //playerController.ArrestGauge = 100;
-        //playerController.ArrestGaugeStep = 0;
         while (i < 10) {    
             playerController.Score += scoreStep;
             yield return new WaitForSeconds(1);
             i++;
         }
-        //playerController.ArrestGaugeStep = 0;
+        
         this.itemOn = false;
     }
 

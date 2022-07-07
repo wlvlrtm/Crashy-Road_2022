@@ -25,7 +25,7 @@ public class ItemSpawner : MonoBehaviour {
         
         for (int i = 0; i < this.pointCheckers.Length; i++) {
             this.pointCheckers[i] = false;
-       }
+        }
 
        ItemSpawn();
     }
