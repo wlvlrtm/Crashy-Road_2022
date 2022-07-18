@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour {
     public static SceneLoader instance;
+
     
     [SerializeField] private CanvasGroup sceneLoaderCanvasGroup;
     private string loadSceneName;
