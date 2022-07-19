@@ -119,8 +119,8 @@ public class ItemGet : MonoBehaviour {
     private void RepairItem() {
         // playerController.life +5;
         playerController.Life += 3;
-        playerController.CoolDownTimer += 3;
-
+        playerController.CoolDownTimer += 15;
+        GameController.instance.ItemGetpoint(5);
         ItemSpawner.instance.ItemSpawn();
     }
 
@@ -128,9 +128,10 @@ public class ItemGet : MonoBehaviour {
         // playerController.arrestGauge = 10; -> 10s
         if (!this.itemOn) {
             StartCoroutine(__StarItem());
-            playerController.CoolDownTimer += 3;
+            playerController.CoolDownTimer += 15;
         }
 
+        GameController.instance.ItemGetpoint(5);
         ItemSpawner.instance.ItemSpawn();
     }
 
@@ -154,9 +155,10 @@ public class ItemGet : MonoBehaviour {
         // playerController.rotateSpeed *2;
         if (!this.itemOn) {
             StartCoroutine(__SpeedItem());
-            playerController.CoolDownTimer += 3;
+            playerController.CoolDownTimer += 15;
         }
 
+        GameController.instance.ItemGetpoint(5);
         ItemSpawner.instance.ItemSpawn();
     }
 
@@ -182,8 +184,9 @@ public class ItemGet : MonoBehaviour {
     private void CoinItem() {
         // playerController.score +10;
         playerController.Score += 10;
-        playerController.CoolDownTimer += 3;
-
+        playerController.CoolDownTimer += 15;
+        
+        GameController.instance.ItemGetpoint(10);
         ItemSpawner.instance.ItemSpawn();
     }
 }

@@ -9,6 +9,7 @@ public class ItemSpawner : MonoBehaviour {
     [SerializeField] private List<GameObject> spawnPoints;
     [SerializeField] private int itemCoolTime;
     
+    public GameObject itemPoint;
     private bool[] pointCheckers;
         public bool[] PointCheckers {
             get { return this.pointCheckers; }
@@ -40,6 +41,7 @@ public class ItemSpawner : MonoBehaviour {
 
         if (!this.pointCheckers[j]) {
             Instantiate(this.items[i], this.spawnPoints[j].transform.position, Quaternion.Euler(-45, 0, 0));
+            this.itemPoint = this.spawnPoints[j];
             this.pointCheckers[j] = true;
         }        
     }
