@@ -35,6 +35,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private TrailRenderer skidRR;
 
     private bool isDeath;
+        public bool IsDeath {
+            get { return this.isDeath; }
+            set { this.isDeath = value; }
+        }
     private float horizontalInput;
     private float verticalInput;
     private Rigidbody playerRb;
@@ -110,6 +114,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Hit() {
         this.life -= 1;
+        this.coolDownTimer -= 3;
         // SOUND FX
     }
 

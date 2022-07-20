@@ -9,7 +9,11 @@ public class ItemSpawner : MonoBehaviour {
     [SerializeField] private List<GameObject> spawnPoints;
     [SerializeField] private int itemCoolTime;
     
-    public GameObject itemPoint;
+    private GameObject itemPoint;
+        public GameObject ItemPoint {
+            get { return this.itemPoint; }
+            set { this.itemPoint = value; }
+        }
     private bool[] pointCheckers;
         public bool[] PointCheckers {
             get { return this.pointCheckers; }

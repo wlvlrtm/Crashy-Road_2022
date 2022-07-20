@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
     public static GameController instance;
     public PlayerController playerController;
     public GameObject gameOverWindow;
+    public Image HPBar;
     public TMP_Text scoreText;
     public TMP_Text coolTimeText;
     private bool isGameOver;
@@ -17,13 +19,18 @@ public class GameController : MonoBehaviour {
             instance = this;
         }
 
-        isGameOver = false;
+        this.isGameOver = false;
+        this.HPBar.fillAmount = 1;
     }
 
     private void Awake() {
         Init();
         StartCoroutine(ScoreCounter());
         StartCoroutine(CoolTimeCounter());
+    }
+
+    private void Update() {
+        HPBarControl();
     }
 
     public void GameOver() {
@@ -51,4 +58,12 @@ public class GameController : MonoBehaviour {
             yield return null;
         }
     }
+
+    private void HPBarControl() {
+        this.HPBar.fillAmount = playerController.Life * 0.1f;
+    }
+
+
+
+
 }

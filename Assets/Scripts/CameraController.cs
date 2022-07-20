@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
     [SerializeField] private Transform target;
+        public Transform Target {
+            get { return target; }
+            set { this.target = value; }
+        }
     [SerializeField] private Vector3 offset;
     
 

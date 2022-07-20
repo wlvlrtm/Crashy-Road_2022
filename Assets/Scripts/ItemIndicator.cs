@@ -7,7 +7,7 @@ public class ItemIndicator : MonoBehaviour {
     [SerializeField] private float rotateSpeed;
 
     private void Update() {
-        targetPoint = ItemSpawner.instance.itemPoint;
+        targetPoint = ItemSpawner.instance.ItemPoint;
 
         transform.LookAt(new Vector3(targetPoint.transform.position.x, transform.position.y, targetPoint.transform.position.z));
     }
