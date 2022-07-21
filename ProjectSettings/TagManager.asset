@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Building
   - Item
+  - NPCCar
   layers:
   - Default
   - TransparentFX

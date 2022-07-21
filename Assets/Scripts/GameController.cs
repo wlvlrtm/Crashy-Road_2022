@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.IO;
 
 public class GameController : MonoBehaviour {
     public static GameController instance;
@@ -11,8 +12,24 @@ public class GameController : MonoBehaviour {
     public Image HPBar;
     public TMP_Text scoreText;
     public TMP_Text coolTimeText;
+    public TMP_Text highScoreText;
     private bool isGameOver;
-    
+    private int highScore;
+        public int HighScore {
+            get { return this.highScore; }
+        }
+    private string playerName;
+        public string PlayerName {
+            get { return this.playerName; }
+            set { this.playerName = value; }
+        }
+
+    [System.Serializable]
+    class SaveData {
+        public string playerName;
+        public int highScore;
+    }
+
 
     private void Init() {
         if (instance == null) {
@@ -21,6 +38,8 @@ public class GameController : MonoBehaviour {
 
         this.isGameOver = false;
         this.HPBar.fillAmount = 1;
+        
+        LoadHighScore();
     }
 
     private void Awake() {
@@ -31,9 +50,34 @@ public class GameController : MonoBehaviour {
 
     private void Update() {
         HPBarControl();
+        HighScoreControl();
+    }
+
+    private void SaveHighSore() {
+        SaveData saveData = new SaveData();
+        saveData.highScore = this.highScore;
+        saveData.playerName = GameInfo.instance.id;
+
+        string json = JsonUtility.ToJson(saveData);
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    private void LoadHighScore() {
+        string path = Application.persistentDataPath + "/savefile.json";
+        
+        if (File.Exists(path)) {
+            string json = File.ReadAllText(path);
+            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
+
+            this.highScore = saveData.highScore;
+            this.playerName = saveData.playerName;
+        }
     }
 
     public void GameOver() {
+        // TODO: High-Score Save; json
+        SaveHighSore();
+
         if (!this.isGameOver) {
             this.gameOverWindow.SetActive(true);
         }
@@ -63,7 +107,13 @@ public class GameController : MonoBehaviour {
         this.HPBar.fillAmount = playerController.Life * 0.1f;
     }
 
-
-
-
+    private void HighScoreControl() {
+        if (this.highScore < playerController.Score) {
+            this.highScoreText.SetText("High-Score: " + playerController.Score);
+            this.highScore = playerController.Score;
+        }
+        else {
+            this.highScoreText.SetText("High-Score: " + this.highScore);
+        }
+    }
 }

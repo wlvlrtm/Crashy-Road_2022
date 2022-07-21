@@ -118,8 +118,11 @@ public class ItemGet : MonoBehaviour {
 
     private void RepairItem() {
         // playerController.life +5;
-        playerController.Life += 3;
-        playerController.CoolDownTimer += 3;
+        if (playerController.Life < 10) {
+            playerController.Life += 1;
+        }
+        
+        playerController.CoolDownTimer += 1;
         GameController.instance.ItemGetpoint(5);
         ItemSpawner.instance.ItemSpawn();
     }
@@ -128,7 +131,7 @@ public class ItemGet : MonoBehaviour {
         // playerController.arrestGauge = 10; -> 10s
         if (!this.itemOn) {
             StartCoroutine(__StarItem());
-            playerController.CoolDownTimer += 3;
+            playerController.CoolDownTimer += 1;
         }
 
         GameController.instance.ItemGetpoint(5);
@@ -155,7 +158,7 @@ public class ItemGet : MonoBehaviour {
         // playerController.rotateSpeed *2;
         if (!this.itemOn) {
             StartCoroutine(__SpeedItem());
-            playerController.CoolDownTimer += 3;
+            playerController.CoolDownTimer += 1;
         }
 
         GameController.instance.ItemGetpoint(5);
@@ -168,8 +171,8 @@ public class ItemGet : MonoBehaviour {
         float __horsePower = playerController.HorsePower;
         float __rotateSpeed = playerController.RotateSpeed;
 
-        playerController.HorsePower *= 2;
-        playerController.RotateSpeed *= 2;  
+        playerController.HorsePower *= 1.2f;
+        playerController.RotateSpeed *= 1.1f;  
         
         while (i < 10) { 
             yield return new WaitForSeconds(1);
@@ -184,7 +187,7 @@ public class ItemGet : MonoBehaviour {
     private void CoinItem() {
         // playerController.score +10;
         playerController.Score += 10;
-        playerController.CoolDownTimer += 3;
+        playerController.CoolDownTimer += 1;
         
         GameController.instance.ItemGetpoint(10);
         ItemSpawner.instance.ItemSpawn();

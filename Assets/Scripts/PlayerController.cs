@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionEnter(Collision other) {
         switch(other.gameObject.tag) {
             case "Building" :
+            case "NPCCar" :
                 Hit();
                 break;
         }
@@ -114,7 +115,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Hit() {
         this.life -= 1;
-        this.coolDownTimer -= 3;
+        this.coolDownTimer -= 5;
         // SOUND FX
     }
 
@@ -133,15 +134,16 @@ public class PlayerController : MonoBehaviour {
     private void Driving() {
         this.horizontalInput = Input.GetAxis("Horizontal");
         
-        // Accel
-        if (IsOnGround()) {
-            this.playerRb.AddRelativeForce(Vector3.forward * -1 * this.horsePower);          
-        }
-
         // Steering wheel (4 wheels)
         if (this.playerRb.velocity.magnitude > 0.5f) {
             transform.Rotate(Vector3.up * this.horizontalInput * this.rotateSpeed * Time.deltaTime);
-            
+        }
+        
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {   // Break; Key: S, down Arrow
+            this.playerRb.AddRelativeForce(Vector3.forward * 1 * (this.horsePower / 2));
+        }
+        else if (IsOnGround()) {    // Accel
+            this.playerRb.AddRelativeForce(Vector3.forward * -1 * this.horsePower);          
         }
 
         // Skid VFX
