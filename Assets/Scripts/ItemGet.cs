@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemGet : MonoBehaviour {
-    [SerializeField] private bool itemRepair;
-    [SerializeField] private bool itemCoin;
-    [SerializeField] private bool itemSpeed;
-    [SerializeField] private bool itemStar;
-
-
     private PlayerController playerController;
     private bool itemOn;
 
@@ -21,27 +15,6 @@ public class ItemGet : MonoBehaviour {
         Init();
     }
     
-    private void Update() {
-        // DEBUG //
-        if (itemCoin) {
-            itemCoin = false;
-            CoinItem();
-        }
-        if (itemRepair) {
-            itemRepair = false;
-            RepairItem();
-        }
-        if (itemSpeed) {
-            itemSpeed = false;
-            SpeedItem();
-        }
-        if (itemStar) {
-            itemStar = false;
-            StarItem();
-        }
-        // -- //
-    }
-
     private void OnTriggerEnter(Collider other) {
         switch (other.gameObject.name) {
             case "Item_Repair(Clone)" :
@@ -122,7 +95,7 @@ public class ItemGet : MonoBehaviour {
             playerController.Life += 1;
         }
         
-        playerController.CoolDownTimer += 1;
+        playerController.CoolDownTimer += 5;
         GameController.instance.ItemGetpoint(5);
         ItemSpawner.instance.ItemSpawn();
     }
@@ -131,7 +104,7 @@ public class ItemGet : MonoBehaviour {
         // playerController.arrestGauge = 10; -> 10s
         if (!this.itemOn) {
             StartCoroutine(__StarItem());
-            playerController.CoolDownTimer += 1;
+            playerController.CoolDownTimer += 5;
         }
 
         GameController.instance.ItemGetpoint(5);
@@ -158,7 +131,7 @@ public class ItemGet : MonoBehaviour {
         // playerController.rotateSpeed *2;
         if (!this.itemOn) {
             StartCoroutine(__SpeedItem());
-            playerController.CoolDownTimer += 1;
+            playerController.CoolDownTimer += 5;
         }
 
         GameController.instance.ItemGetpoint(5);
@@ -171,8 +144,8 @@ public class ItemGet : MonoBehaviour {
         float __horsePower = playerController.HorsePower;
         float __rotateSpeed = playerController.RotateSpeed;
 
-        playerController.HorsePower *= 1.2f;
-        playerController.RotateSpeed *= 1.1f;  
+        playerController.HorsePower *= 1.5f;
+        playerController.RotateSpeed *= 1.2f;  
         
         while (i < 10) { 
             yield return new WaitForSeconds(1);
@@ -187,7 +160,7 @@ public class ItemGet : MonoBehaviour {
     private void CoinItem() {
         // playerController.score +10;
         playerController.Score += 10;
-        playerController.CoolDownTimer += 1;
+        playerController.CoolDownTimer += 5;
         
         GameController.instance.ItemGetpoint(10);
         ItemSpawner.instance.ItemSpawn();

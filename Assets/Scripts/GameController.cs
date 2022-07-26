@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
         public int HighScore {
             get { return this.highScore; }
         }
+    private int __hightScore;
     private string playerName;
         public string PlayerName {
             get { return this.playerName; }
@@ -55,11 +56,14 @@ public class GameController : MonoBehaviour {
 
     private void SaveHighSore() {
         SaveData saveData = new SaveData();
-        saveData.highScore = this.highScore;
-        saveData.playerName = GameInfo.instance.id;
 
-        string json = JsonUtility.ToJson(saveData);
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        if (saveData.highScore < this.__hightScore) {
+            saveData.highScore = this.__hightScore;
+            saveData.playerName = GameInfo.instance.id;
+
+            string json = JsonUtility.ToJson(saveData);
+            File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        }
     }
 
     private void LoadHighScore() {
@@ -79,6 +83,7 @@ public class GameController : MonoBehaviour {
         SaveHighSore();
 
         if (!this.isGameOver) {
+            BGMPlayer.instance.Pause();
             this.gameOverWindow.SetActive(true);
         }
 
@@ -110,7 +115,7 @@ public class GameController : MonoBehaviour {
     private void HighScoreControl() {
         if (this.highScore < playerController.Score) {
             this.highScoreText.SetText("High-Score: " + playerController.Score);
-            this.highScore = playerController.Score;
+            this.__hightScore = playerController.Score;
         }
         else {
             this.highScoreText.SetText("High-Score: " + this.highScore);

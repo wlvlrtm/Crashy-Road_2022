@@ -12,8 +12,8 @@ public class HighScorePrint : MonoBehaviour {
     }
 
 
-    private int highScore;
-    private string playerName;
+    public int highScore;
+    public string playerName;
 
 
     private void Init() {
@@ -31,7 +31,7 @@ public class HighScorePrint : MonoBehaviour {
         if (File.Exists(path)) {
             string json = File.ReadAllText(path);
             SaveData saveData = JsonUtility.FromJson<SaveData>(json);
-
+                
             this.highScore = saveData.highScore;
             this.playerName = saveData.playerName;
         }

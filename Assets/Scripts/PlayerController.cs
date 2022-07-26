@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private int coolDownTimer;
         public int CoolDownTimer {
             get { return this.coolDownTimer; }
-            set { this.coolDownTimer += value; }
+            set { this.coolDownTimer = value; }
         }
     [SerializeField] private int score;
         public int Score {
@@ -29,10 +29,14 @@ public class PlayerController : MonoBehaviour {
             set { this.rotateSpeed = value; }
         }
     [SerializeField] private GameObject centerOfMass;
+    [SerializeField] private GameObject centerOfExplosion;
     [SerializeField] private int wheelsOnGround;    
     [SerializeField] private List<WheelCollider> wheels;
     [SerializeField] private TrailRenderer skidRL;
     [SerializeField] private TrailRenderer skidRR;
+    [SerializeField] private float explosionForce;
+    [SerializeField] private float explosionRadius;
+    [SerializeField] private float upwardsModifier;
 
     private bool isDeath;
         public bool IsDeath {
@@ -41,11 +45,14 @@ public class PlayerController : MonoBehaviour {
         }
     private float horizontalInput;
     private float verticalInput;
+    private float currentSpeed;
+    private float pitch;
     private Rigidbody playerRb;
     private Vector3 startPos;
     private Vector3 moveForce;
     private Coroutine runningCoroutine;
-
+    private bool isExplosion;
+    private AudioSource audioSource;
      
     private void Init() {
         this.runningCoroutine = null;
@@ -53,6 +60,8 @@ public class PlayerController : MonoBehaviour {
         this.playerRb.centerOfMass = this.centerOfMass.transform.localPosition;
         this.startPos = gameObject.transform.position;
         this.isDeath = false;
+        this.isExplosion = false;
+        this.audioSource = GetComponent<AudioSource>();
 
         // Score Count Start
         StartCoroutine(ScoreCounter());
@@ -74,6 +83,7 @@ public class PlayerController : MonoBehaviour {
         Driving();
         Crash();
         PlayerDeath();
+        EngineSound();
     }
 
     private void OnDisable() {
@@ -91,6 +101,7 @@ public class PlayerController : MonoBehaviour {
 
     private void PlayerDeath() {
         if (this.isDeath == true) {
+            Boom();
             GameController.instance.GameOver();
         }
     }
@@ -115,7 +126,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Hit() {
         this.life -= 1;
-        this.coolDownTimer -= 5;
+        this.coolDownTimer -= 3;
         // SOUND FX
     }
 
@@ -173,4 +184,24 @@ public class PlayerController : MonoBehaviour {
             return false;
         }
     }
+
+    private void Boom() {
+        if (!this.isExplosion) {
+            VFXController.instance.Play(gameObject.transform.position);
+            this.playerRb.AddExplosionForce(this.explosionForce, this.centerOfExplosion.transform.position, this.explosionRadius, this.upwardsModifier, ForceMode.Impulse);
+            this.isExplosion = true;
+        }
+    }
+
+    private void EngineSound() {
+        if (!this.isExplosion) {
+            this.currentSpeed = this.playerRb.velocity.magnitude * 3.6f;
+            this.pitch = this.currentSpeed / 100;
+            this.audioSource.pitch = this.pitch;
+        }
+        else {
+            this.audioSource.Stop();
+        }
+    }
+
 }
