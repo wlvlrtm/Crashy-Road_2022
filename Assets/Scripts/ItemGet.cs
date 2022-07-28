@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemGet : MonoBehaviour {
+    [SerializeField] private AudioSource itemGetSFX;
     private PlayerController playerController;
     private bool itemOn;
 
@@ -89,7 +90,13 @@ public class ItemGet : MonoBehaviour {
 
     }
 
+    private void ItemGetSFX() {
+        this.itemGetSFX.Play();
+    }
+
     private void RepairItem() {
+        ItemGetSFX();
+
         // playerController.life +5;
         if (playerController.Life < 10) {
             playerController.Life += 1;
@@ -101,6 +108,8 @@ public class ItemGet : MonoBehaviour {
     }
 
     private void StarItem() {
+        ItemGetSFX();
+
         // playerController.arrestGauge = 10; -> 10s
         if (!this.itemOn) {
             StartCoroutine(__StarItem());
@@ -127,6 +136,8 @@ public class ItemGet : MonoBehaviour {
     }
 
     private void SpeedItem() {
+        ItemGetSFX();
+
         // playerController.horsePower *2;
         // playerController.rotateSpeed *2;
         if (!this.itemOn) {
@@ -158,6 +169,8 @@ public class ItemGet : MonoBehaviour {
     }
 
     private void CoinItem() {
+        ItemGetSFX();
+        
         // playerController.score +10;
         playerController.Score += 10;
         playerController.CoolDownTimer += 5;

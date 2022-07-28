@@ -34,10 +34,15 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private List<WheelCollider> wheels;
     [SerializeField] private TrailRenderer skidRL;
     [SerializeField] private TrailRenderer skidRR;
-    [SerializeField] private float explosionForce;
-    [SerializeField] private float explosionRadius;
-    [SerializeField] private float upwardsModifier;
+    [SerializeField] private ParticleSystem FXSmoke;
+    [SerializeField] private AudioSource engineSFX;
+    [SerializeField] private AudioSource boomSFX;
+    [SerializeField] private AudioSource hitSFX;
+    [SerializeField] private AudioSource driftSFX;
 
+    private float explosionForce;
+    private float explosionRadius;
+    private float upwardsModifier;
     private bool isDeath;
         public bool IsDeath {
             get { return this.isDeath; }
@@ -52,8 +57,8 @@ public class PlayerController : MonoBehaviour {
     private Vector3 moveForce;
     private Coroutine runningCoroutine;
     private bool isExplosion;
-    private AudioSource audioSource;
      
+    
     private void Init() {
         this.runningCoroutine = null;
         this.playerRb = GetComponent<Rigidbody>();
@@ -61,7 +66,9 @@ public class PlayerController : MonoBehaviour {
         this.startPos = gameObject.transform.position;
         this.isDeath = false;
         this.isExplosion = false;
-        this.audioSource = GetComponent<AudioSource>();
+        this.explosionForce = 10000;
+        this.explosionRadius = 100;
+        this.upwardsModifier = 15000;
 
         // Score Count Start
         StartCoroutine(ScoreCounter());
@@ -84,6 +91,7 @@ public class PlayerController : MonoBehaviour {
         Crash();
         PlayerDeath();
         EngineSound();
+        FixWarning();
     }
 
     private void OnDisable() {
@@ -128,6 +136,7 @@ public class PlayerController : MonoBehaviour {
         this.life -= 1;
         this.coolDownTimer -= 3;
         // SOUND FX
+        this.hitSFX.Play();
     }
 
     private void Crash() {
@@ -157,14 +166,19 @@ public class PlayerController : MonoBehaviour {
             this.playerRb.AddRelativeForce(Vector3.forward * -1 * this.horsePower);          
         }
 
-        // Skid VFX
+        // Skid VFX & Drift SFX
         if (this.horizontalInput != 0) {
             this.skidRL.emitting = true;
             this.skidRR.emitting = true;
+
+            if (!this.driftSFX.isPlaying) {
+                this.driftSFX.Play();
+            }
         }
         else {
             this.skidRL.emitting = false;
             this.skidRR.emitting = false;
+            this.driftSFX.Stop();
         }
     }
 
@@ -190,6 +204,7 @@ public class PlayerController : MonoBehaviour {
             VFXController.instance.Play(gameObject.transform.position);
             this.playerRb.AddExplosionForce(this.explosionForce, this.centerOfExplosion.transform.position, this.explosionRadius, this.upwardsModifier, ForceMode.Impulse);
             this.isExplosion = true;
+            this.boomSFX.Play();
         }
     }
 
@@ -197,11 +212,19 @@ public class PlayerController : MonoBehaviour {
         if (!this.isExplosion) {
             this.currentSpeed = this.playerRb.velocity.magnitude * 3.6f;
             this.pitch = this.currentSpeed / 100;
-            this.audioSource.pitch = this.pitch;
+            this.engineSFX.pitch = this.pitch;
         }
         else {
-            this.audioSource.Stop();
+            this.engineSFX.Stop();
         }
     }
 
+    private void FixWarning() {
+        if (this.life <= 3) {
+            this.FXSmoke.Play();
+        }
+        else {
+            this.FXSmoke.Stop();
+        }
+    }
 }
